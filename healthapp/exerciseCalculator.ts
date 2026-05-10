@@ -12,19 +12,9 @@ const calculateExercises = (
   dailyExerciseHours: number[],
   target: number,
 ): ExerciseData => {
-  if (!Array.isArray(dailyExerciseHours) || dailyExerciseHours.length === 0) {
-    throw new Error("Invalid input: Please provide a non-empty array.");
-  }
-
-  if (dailyExerciseHours.some((h) => isNaN(Number(h)))) {
-    throw new Error("Invalid input: All values must be numbers.");
-  }
-
-  const hours = dailyExerciseHours.map((h) => Number(h));
-
-  const periodLength = hours.length;
-  const trainingDays = hours.filter((h) => h > 0).length;
-  const average = hours.reduce((a, b) => a + b, 0) / periodLength;
+  const periodLength = dailyExerciseHours.length;
+  const trainingDays = dailyExerciseHours.filter((h) => h > 0).length;
+  const average = dailyExerciseHours.reduce((a, b) => a + b, 0) / periodLength;
   const success = average >= target;
 
   let rating: number;
@@ -52,8 +42,20 @@ const calculateExercises = (
   };
 };
 
+const parseArgs = (args: string[]) => {
+  if (!Array.isArray(args) || args.length === 0)
+    throw new Error("Invalid input: Please provide a non-empty array.");
+
+  if (args.some((h) => isNaN(Number(h)))) {
+    throw new Error("Invalid input: All values must be numbers.");
+  }
+
+  return args.map((arg) => Number(arg));
+};
+
 try {
-  console.log(calculateExercises([1, 2, 3, 4], 2));
+  const parsedArray = parseArgs(process.argv.slice(2));
+  console.log(calculateExercises(parsedArray.slice(1), parsedArray[0]));
 } catch (error) {
   let errorMessage = "Something bad happened: ";
   if (error instanceof Error) {
