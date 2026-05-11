@@ -7,16 +7,21 @@
     "calculateBmi": "tsc && node --experimental-strip-types bmiCalculator.ts",
     "calculateExercises": "tsc && node --experimental-strip-types exerciseCalculator.ts",
     "dev": "concurrently \"tsc --watch\" \" node --experimental-strip-types --watch index.ts\"",
-    "start": "node --experimental-strip-types index.ts"
+    "start": "node --experimental-strip-types index.ts",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.2",
     "concurrently": "^9.2.1",
-    "typescript": "^6.0.3"
+    "eslint": "^10.3.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.2"
   },
   "dependencies": {
     "express": "^5.2.1"

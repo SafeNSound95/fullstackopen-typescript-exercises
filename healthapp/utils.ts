@@ -3,7 +3,10 @@ interface Measurments {
   weight: number;
 }
 
-export const parseHeightAndWeight = (height: any, weight: any): Measurments => {
+export const parseHeightAndWeight = (
+  height: unknown,
+  weight: unknown,
+): Measurments => {
   if (!height || !weight)
     throw new Error("Input error: height and weight cannot be empty");
 
