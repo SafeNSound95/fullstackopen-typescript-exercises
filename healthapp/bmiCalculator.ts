@@ -1,4 +1,6 @@
-const calculateBmi = (height: number, weight: number): string => {
+import { parseHeightAndWeight } from "./utils.ts";
+
+export const calculateBmi = (height: number, weight: number): string => {
   const heightInMeters = height / 100;
   const bmi = weight / heightInMeters ** 2;
 
@@ -12,47 +14,18 @@ const calculateBmi = (height: number, weight: number): string => {
   return "Obese (Class III))";
 };
 
-interface Measurements {
-  height: number;
-  weight: number;
-}
-
-const parseArguments = (args: string[]): Measurements => {
-  if (args.length < 4) throw new Error("Not enough arguments");
-  if (args.length > 4) throw new Error("Too many arguments");
-
-  const height = Number(args[2]);
-  const weight = Number(args[3]);
-
-  if (
-    typeof height === "number" &&
-    !isNaN(height) &&
-    height !== 0 &&
-    typeof weight === "number" &&
-    !isNaN(weight)
-  ) {
-    if (height <= 0 || weight <= 0) {
-      throw new Error(
-        "Height and weight must be positive numbers greater than zero.",
-      );
-    }
-    return {
-      height,
-      weight,
-    };
-  } else
-    throw new Error(
-      "Invalid inputs, please make sure to input both the height and width as numbers",
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const { height, weight } = parseHeightAndWeight(
+      process.argv[2],
+      process.argv[3],
     );
-};
-
-try {
-  const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight));
-} catch (error) {
-  let errorMessage = "Something went wrong: ";
-  if (error instanceof Error) {
-    errorMessage += error.message;
+    console.log(calculateBmi(height, weight));
+  } catch (error) {
+    let errorMessage = "Something went wrong: ";
+    if (error instanceof Error) {
+      errorMessage += error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
